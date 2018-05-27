@@ -19,6 +19,9 @@ module Services
 
       # @return [String] Issuesのtitleの先頭30文字、bodyの先頭50文字、html_urlをCSV形式とした文字列
       def exec
+        # TODO: リクエストパラメータとレスポンスのログ出力処理を追加
+        # TODO: レスポンスが正常系か否かの判定を追加
+        # TODO: レスポンスに応じたリトライ処理を追加
         response = request
 
         issues = parse response
