@@ -5,8 +5,7 @@ require_relative 'services/github_issues/get_service.rb'
 def main
   url  = 'https://api.github.com/repos/rails/rails/issues'
 
-  github_issues_get_service = Services::GithubIssues::GetService.new(url)
-  puts github_issues_get_service.exec
+  puts Services::GithubIssues::GetService.exec url
 end
 
 if __FILE__ == $0
