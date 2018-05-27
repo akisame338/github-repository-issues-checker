@@ -15,10 +15,29 @@ module Services
 
       # @return [String] Issuesのtitleの先頭30文字、bodyの先頭50文字、html_urlをCSV形式とした文字列
       def exec
-        response = RestClient.get @url, {params: {page: @page}}
-        issues = JSON.parse response.body
+        response = request
 
-        csv_data = CSV.generate({:force_quotes => true}) do |csv|
+        issues = parse response
+        to_csv issues
+      end
+
+      private
+
+      # @return Issues取得APIのレスポンス
+      def request
+        RestClient.get @url, {params: {page: @page}}
+      end
+
+      # @param response Issues取得APIのレスポンス
+      # @return [Array] Issuesのハッシュ
+      def parse(response)
+        JSON.parse response.body
+      end
+
+      # @param issues [Array] Issuesのハッシュ
+      # @return [String] Issuesのtitleの先頭30文字、bodyの先頭50文字、html_urlをCSV形式とした文字列
+      def to_csv(issues)
+        CSV.generate({:force_quotes => true}) do |csv|
           issues.each do |issue|
             csv << [issue['title'][0, 30], issue['body'][0, 50], issue['html_url']]
           end
