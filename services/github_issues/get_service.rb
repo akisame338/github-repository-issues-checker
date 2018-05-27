@@ -9,6 +9,10 @@ module Services
       # @param url [String] リクエストURL
       # @param page [Integer] Issues取得対象ページ（デフォルト：1）
       def initialize(url, page=1)
+        if !is_valid_url? url
+          raise "'#{url}' is invalid URL"
+        end
+
         @url  = url
         @page = page
       end
@@ -22,6 +26,13 @@ module Services
       end
 
       private
+
+      # @param url [String] リクエストURL
+      # @return [Boolean] リクエストURLが適切か否か
+      # @see https://developer.github.com/v3/issues/#list-issues-for-a-repository
+      def is_valid_url?(url)
+        !(url =~ /https:\/\/api\.github\.com\/repos\/.+\/.+\/issues/).nil?
+      end
 
       # @return Issues取得APIのレスポンス
       def request
