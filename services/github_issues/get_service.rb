@@ -1,6 +1,7 @@
 require 'csv'
 require 'json'
 require 'rest-client'
+require_relative 'get_service_error.rb'
 
 module Services
   module GithubIssues
@@ -11,7 +12,7 @@ module Services
       # @return [String] Issuesのtitleの先頭30文字、bodyの先頭50文字、html_urlをCSV形式とした文字列
       def self.exec(url, page=1)
         if !is_valid_url? url
-          raise "'#{url}' is invalid URL"
+          raise Services::GithubIssues::GetServiceError, "'#{url}' is invalid URL"
         end
 
         # TODO: リクエストパラメータとレスポンスのログ出力処理を追加
