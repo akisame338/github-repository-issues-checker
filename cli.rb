@@ -1,22 +1,12 @@
 #!/usr/bin/env ruby
 
-require 'csv'
-require 'json'
-require 'rest-client'
+require_relative 'services/github_issues/get_service.rb'
 
 def main
   url  = 'https://api.github.com/repos/rails/rails/issues'
-  page = 1
-  response = RestClient.get url, {params: {page: page}}
-  issues = JSON.parse response.body
 
-  csv_data = CSV.generate({:force_quotes => true}) do |csv|
-    issues.each do |issue|
-      csv << [issue['title'][0, 30], issue['body'][0, 50], issue['html_url']]
-    end
-  end
-
-  puts csv_data
+  github_issues_get_service = Services::GithubIssues::GetService.new(url)
+  puts github_issues_get_service.exec
 end
 
 if __FILE__ == $0
