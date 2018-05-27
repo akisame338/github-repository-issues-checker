@@ -5,8 +5,9 @@ require 'json'
 require 'rest-client'
 
 def main
-  url = 'https://api.github.com/repos/rails/rails/issues'
-  response = RestClient.get url
+  url  = 'https://api.github.com/repos/rails/rails/issues'
+  page = 1
+  response = RestClient.get url, {params: {page: page}}
   issues = JSON.parse response.body
 
   csv_data = CSV.generate({:force_quotes => true}) do |csv|
