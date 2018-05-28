@@ -31,6 +31,10 @@ $ bundle exec ruby cli.rb
 | created_at | datetime |
 | updated_at | datetime |
 
+```console
+$ bundle exec rails g model Repository name:string:unique
+```
+
 #### Issueモデル
 
 | フィールド名 | データ型 |
@@ -42,6 +46,10 @@ $ bundle exec ruby cli.rb
 | html_url | string (UNIQUE KEY) |
 | created_at | datetime |
 | updated_at | datetime |
+
+```console
+$ bundle exec rails g model Issue repository:references title:string body:string html_url:string:unique
+```
 
 ### ルーティング設計
 
