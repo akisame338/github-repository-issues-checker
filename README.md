@@ -58,4 +58,4 @@ $ bundle exec rails g model Issue repository:references title:string body:string
 | GET | /repositories | repositories#index | 取得対象のリポジトリ一覧表示<br>リポジトリ毎に最新のIssueを5件表示 |
 | POST | /repositories/create | repositories#create | リポジトリをテーブルに追加 |
 | DELETE | /repositories/:id | repositories#destroy | リポジトリをテーブルから削除 |
-| PATCH | issues/:repository_id | issues#update | 対象リポジトリの最新Issues取得<br>未登録のデータをテーブルに追加 |
+| PATCH | issues/:repository_id | issues#update | 対象リポジトリの最新Issues取得<br>未登録のIssueをテーブルに追加 |
