@@ -1,11 +1,13 @@
 require 'csv'
 require 'json'
+require 'logger'
 require 'rest-client'
 require_relative 'get_service_error.rb'
 
 module Services
   module GithubIssues
     class GetService
+      REST_CLIENT_LOG_FILE_NAME = 'rest-client.log'
 
       # @param url [String] リクエストURL
       # @param page [Integer] Issues取得対象ページ（デフォルト：1）
@@ -15,7 +17,6 @@ module Services
           raise Services::GithubIssues::GetServiceError, "'#{url}' is invalid URL"
         end
 
-        # TODO: リクエストパラメータとレスポンスのログ出力処理を追加
         # TODO: レスポンスが正常系か否かの判定を追加
         # TODO: レスポンスに応じたリトライ処理を追加
         response = request url, page
@@ -37,7 +38,17 @@ module Services
       # @param page [Integer] Issues取得対象ページ
       # @return Issues取得APIのレスポンス
       def self.request(url, page)
+        # @see https://qiita.com/kotaroito/items/d96182c8055ca1242b02
+        log_file = log_path REST_CLIENT_LOG_FILE_NAME
+        RestClient.log = Logger.new(log_file)
+
         RestClient.get url, {params: {page: page}}
+      end
+
+      # @param log_file_name [String] ログファイル名
+      # @return [String] ログファイルのパス
+      def self.log_path(log_file_name)
+        File.expand_path('../../../log', __FILE__) + '/' + log_file_name
       end
 
       # @param response Issues取得APIのレスポンス
